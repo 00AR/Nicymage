@@ -24,10 +24,11 @@ def run_scan(image: str) -> int:
         vulnerabilities = vulnscan.scan_vulnerabilities(image)
         risk = score.compute_risk_score(vulnerabilities)
         report.render_report(image_metadata, packages, vulnerabilities, risk)
-        return 0
     except (NotImplementedError, DockerError, SyftError, TrivyError) as exc:
         print(f"nicymage: {exc}", file=sys.stderr)
         return 1
+
+    return 2 if risk["verdict"] == "HIGH" else 0
 
 
 def main(argv=None) -> int:
