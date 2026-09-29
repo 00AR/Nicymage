@@ -3,6 +3,7 @@ import sys
 
 from . import metadata, sbom, vulnscan, score, report
 from .metadata import DockerError
+from .sbom import SyftError
 
 
 def build_parser():
@@ -23,7 +24,7 @@ def run_scan(image: str) -> int:
         risk = score.compute_risk_score(vulnerabilities)
         report.render_report(image_metadata, packages, vulnerabilities, risk)
         return 0
-    except (NotImplementedError, DockerError) as exc:
+    except (NotImplementedError, DockerError, SyftError) as exc:
         print(f"nicymage: {exc}", file=sys.stderr)
         return 1
 
