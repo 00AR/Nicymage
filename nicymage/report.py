@@ -1,4 +1,4 @@
-def render_report(metadata: dict, packages: list, vulnerabilities: list, risk: dict) -> None:
+def render_report(metadata: dict, packages: list, vulnerabilities: list, risk: dict) -> dict:
     severity_counts = {"CRITICAL": 0, "HIGH": 0, "MEDIUM": 0, "LOW": 0, "UNKNOWN": 0}
     for vuln in vulnerabilities:
         severity = (vuln.get("severity") or "UNKNOWN").upper()
@@ -15,3 +15,5 @@ def render_report(metadata: dict, packages: list, vulnerabilities: list, risk: d
     print()
     print(f"Score: {risk.get('score')} / 100")
     print(f"Verdict: {risk.get('verdict')}")
+
+    return severity_counts
